@@ -1,12 +1,21 @@
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View, Button } from "react-native";
+import { MealNavigatorProps } from "../navigation/MealsNavigator";
 
-interface Props {}
+type Props = {
+	navigation: MealNavigatorProps;
+};
 
 const CategoriesMealScreen = (props: Props) => {
 	return (
 		<View style={styles.screen}>
 			<Text>The CategoriesMealScreens Screen!</Text>
+			<Button
+				title="Go To Details!"
+				onPress={() =>
+					props.navigation.navigate({ routeName: "MealDetail" })
+				}
+			></Button>
 		</View>
 	);
 };
