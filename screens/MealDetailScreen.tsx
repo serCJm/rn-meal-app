@@ -1,12 +1,12 @@
 import React from "react";
 import { StyleSheet, Text, View, Button } from "react-native";
-import { MealNavigatorProps } from "../navigation/MealsNavigator";
+import { NavigationStackScreenComponent } from "react-navigation-stack";
 
-type Props = {
-	navigation: MealNavigatorProps;
-};
+type Params = {};
 
-const MealDetailScreen = (props: Props) => {
+type ScreenProps = {};
+
+const MealDetailScreen: NavigationStackScreenComponent = (props) => {
 	return (
 		<View style={styles.screen}>
 			<Text>The MealDetailScreen Screen!</Text>

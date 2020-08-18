@@ -1,15 +1,29 @@
 import React from "react";
 import { StyleSheet, Text, View, Button } from "react-native";
-import { MealNavigatorProps } from "../navigation/MealsNavigator";
+import { CATEGORIES } from "../data/data";
+import Category from "../models/category";
+import { NavigationScreenComponent } from "react-navigation";
+import {
+	NavigationStackScreenProps,
+	NavigationStackOptions,
+} from "react-navigation-stack";
 
-type Props = {
-	navigation: MealNavigatorProps;
-};
+type Params = {};
 
-const CategoriesMealScreen = (props: Props) => {
+type ScreenProps = {};
+
+const CategoriesMealScreen: NavigationScreenComponent<Params, ScreenProps> = (
+	props
+) => {
+	const catId = props.navigation.getParam("categoryId");
+
+	const selectedCategory: Category | undefined = CATEGORIES.find(
+		(cat) => cat.id === catId
+	);
 	return (
 		<View style={styles.screen}>
 			<Text>The CategoriesMealScreens Screen!</Text>
+			<Text>{selectedCategory?.title}</Text>
 			<Button
 				title="Go To Details!"
 				onPress={() =>
@@ -22,6 +36,18 @@ const CategoriesMealScreen = (props: Props) => {
 			></Button>
 		</View>
 	);
+};
+
+CategoriesMealScreen.navigationOptions = (
+	navigationData: NavigationStackScreenProps
+): NavigationStackOptions => {
+	const catId = navigationData.navigation.getParam("categoryId", "None");
+	const selectedCategory: Category | undefined = CATEGORIES.find(
+		(cat) => cat.id === catId
+	);
+	return {
+		headerTitle: selectedCategory?.title,
+	};
 };
 
 export default CategoriesMealScreen;

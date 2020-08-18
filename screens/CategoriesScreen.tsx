@@ -3,19 +3,16 @@ import {
 	StyleSheet,
 	Text,
 	View,
-	Button,
 	FlatList,
 	ListRenderItemInfo,
-	Platform,
 } from "react-native";
-import { MealNavigatorProps } from "../navigation/MealsNavigator";
 import { CATEGORIES } from "../data/data";
 import Category from "../models/category";
 import { TouchableOpacity } from "react-native-gesture-handler";
-import { Colors } from "../constants/Colors";
+import { NavigationStackProp } from "react-navigation-stack";
 
 type Props = {
-	navigation: MealNavigatorProps;
+	navigation: NavigationStackProp;
 };
 
 const CategoriesScreen = (props: Props) => {
@@ -24,11 +21,8 @@ const CategoriesScreen = (props: Props) => {
 			<TouchableOpacity
 				style={styles.gridItem}
 				onPress={() =>
-					props.navigation.navigate({
-						routeName: "CategoryMeals",
-						params: {
-							categoryId: itemData.item.id,
-						},
+					props.navigation.navigate("CategoryMeals", {
+						categoryId: itemData.item.id,
 					})
 				}
 			>
@@ -50,10 +44,6 @@ const CategoriesScreen = (props: Props) => {
 
 CategoriesScreen.navigationOptions = {
 	headerTitle: "Meal Categories",
-	headerStyle: {
-		backgroundColor: Platform.OS === "android" ? Colors.primaryColor : "",
-	},
-	headerTintColor: "white",
 };
 
 export default CategoriesScreen;
