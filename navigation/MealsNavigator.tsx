@@ -3,25 +3,41 @@ import CategoriesScreen from "../screens/CategoriesScreen";
 import CategoriesMealScreen from "../screens/CategoryMealsScreen";
 import MealDetailScreen from "../screens/MealDetailScreen";
 import { createAppContainer } from "react-navigation";
-import { StackNavigationProp } from "react-navigation-stack/lib/typescript/src/vendor/types";
+import { Platform } from "react-native";
+import { Colors } from "../constants/Colors";
 
-type MealNavigator = {
-	Categories: string;
-	CategoryMeals: string;
-	MealDetail: string;
-};
+export enum ROUTES {
+	Categories = "Categories",
+	CategoryMeals = "CategoryMeals",
+	MealDetail = "MealDetail",
+}
 
 // set screens
-const MealNavigator = createStackNavigator({
-	Categories: CategoriesScreen,
-	CategoryMeals: CategoriesMealScreen,
-	MealDetail: MealDetailScreen,
-});
-
-export type MealNavigatorProps = StackNavigationProp<
-	MealNavigator,
-	"MealNavigator"
->;
+const MealNavigator = createStackNavigator(
+	{
+		[ROUTES.Categories]: {
+			screen: CategoriesScreen,
+			// navigationOptions: {
+			// 	headerTitle: 'some title'
+			// }
+		},
+		[ROUTES.CategoryMeals]: {
+			screen: CategoriesMealScreen,
+		},
+		[ROUTES.MealDetail]: {
+			screen: MealDetailScreen,
+		},
+	},
+	{
+		defaultNavigationOptions: {
+			headerStyle: {
+				backgroundColor:
+					Platform.OS === "android" ? Colors.primaryColor : "",
+			},
+			headerTintColor: "white",
+		},
+	}
+);
 
 // always wrap root/most important navigator
 export default createAppContainer(MealNavigator);
