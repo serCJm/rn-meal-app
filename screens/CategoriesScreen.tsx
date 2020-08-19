@@ -1,15 +1,9 @@
 import React from "react";
-import {
-	StyleSheet,
-	Text,
-	View,
-	FlatList,
-	ListRenderItemInfo,
-} from "react-native";
+import { StyleSheet, FlatList, ListRenderItemInfo } from "react-native";
 import { CATEGORIES } from "../data/data";
 import Category from "../models/category";
-import { TouchableOpacity } from "react-native-gesture-handler";
 import { NavigationStackProp } from "react-navigation-stack";
+import CategoryGridTile from "../components/CategoryGridTile";
 
 type Props = {
 	navigation: NavigationStackProp;
@@ -18,18 +12,15 @@ type Props = {
 const CategoriesScreen = (props: Props) => {
 	const renderGridItem = (itemData: ListRenderItemInfo<Category>) => {
 		return (
-			<TouchableOpacity
-				style={styles.gridItem}
-				onPress={() =>
+			<CategoryGridTile
+				title={itemData.item.title}
+				color={itemData.item.color}
+				onSelect={() =>
 					props.navigation.navigate("CategoryMeals", {
 						categoryId: itemData.item.id,
 					})
 				}
-			>
-				<View>
-					<Text>{itemData.item.title}</Text>
-				</View>
-			</TouchableOpacity>
+			></CategoryGridTile>
 		);
 	};
 
@@ -53,10 +44,5 @@ const styles = StyleSheet.create({
 		flex: 1,
 		justifyContent: "center",
 		alignItems: "center",
-	},
-	gridItem: {
-		flex: 1,
-		margin: 15,
-		height: 150,
 	},
 });
