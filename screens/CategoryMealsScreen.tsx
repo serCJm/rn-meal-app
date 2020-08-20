@@ -1,12 +1,16 @@
 import React from "react";
-import { StyleSheet, Text, View, Button } from "react-native";
-import { CATEGORIES } from "../data/data";
+import { StyleSheet, Text, View, ListRenderItemInfo } from "react-native";
+import { CATEGORIES, MEALS } from "../data/data";
 import Category from "../models/category";
 import { NavigationScreenComponent } from "react-navigation";
 import {
 	NavigationStackScreenProps,
 	NavigationStackOptions,
 } from "react-navigation-stack";
+import { FlatList } from "react-native-gesture-handler";
+import Meal from "../models/meal";
+import MealItem from "../components/MealItem";
+import { ROUTES } from "../navigation/MealsNavigator";
 
 type Params = {};
 
@@ -15,25 +19,38 @@ type ScreenProps = {};
 const CategoriesMealScreen: NavigationScreenComponent<Params, ScreenProps> = (
 	props
 ) => {
+	const renderMealItem = (itemData: ListRenderItemInfo<Meal>) => {
+		return (
+			<MealItem
+				title={itemData.item.title}
+				onSelectMeal={() => {
+					props.navigation.navigate({
+						routeName: ROUTES.MealDetail,
+						params: {
+							mealId: itemData.item.id,
+						},
+					});
+				}}
+				duration={itemData.item.duration}
+				complexity={itemData.item.complexity}
+				affordability={itemData.item.affordability}
+				imageUri={itemData.item.imageUrl}
+			></MealItem>
+		);
+	};
+
 	const catId = props.navigation.getParam("categoryId");
 
-	const selectedCategory: Category | undefined = CATEGORIES.find(
-		(cat) => cat.id === catId
+	const displayedMeals = MEALS.filter(
+		(meal) => meal.categoryIds.indexOf(catId) >= 0
 	);
 	return (
 		<View style={styles.screen}>
-			<Text>The CategoriesMealScreens Screen!</Text>
-			<Text>{selectedCategory?.title}</Text>
-			<Button
-				title="Go To Details!"
-				onPress={() =>
-					props.navigation.navigate({ routeName: "MealDetail" })
-				}
-			></Button>
-			<Button
-				title="Go Back!"
-				onPress={() => props.navigation.goBack()}
-			></Button>
+			<FlatList
+				data={displayedMeals}
+				renderItem={renderMealItem}
+				style={{ width: "90%" }}
+			></FlatList>
 		</View>
 	);
 };
@@ -57,5 +74,6 @@ const styles = StyleSheet.create({
 		flex: 1,
 		justifyContent: "center",
 		alignItems: "center",
+		padding: 15,
 	},
 });
