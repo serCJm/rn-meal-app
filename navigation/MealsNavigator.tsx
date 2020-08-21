@@ -5,12 +5,7 @@ import MealDetailScreen from "../screens/MealDetailScreen";
 import { createAppContainer } from "react-navigation";
 import { Platform } from "react-native";
 import { Colors } from "../constants/Colors";
-
-export enum ROUTES {
-	Categories = "Categories",
-	CategoryMeals = "CategoryMeals",
-	MealDetail = "MealDetail",
-}
+import { ROUTES } from "./routes";
 
 // set screens
 const MealNavigator = createStackNavigator(
