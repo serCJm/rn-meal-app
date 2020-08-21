@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, Text, View, ListRenderItemInfo } from "react-native";
+import { StyleSheet, View, ListRenderItemInfo } from "react-native";
 import { CATEGORIES, MEALS } from "../data/data";
 import Category from "../models/category";
 import { NavigationScreenComponent } from "react-navigation";
@@ -10,7 +10,7 @@ import {
 import { FlatList } from "react-native-gesture-handler";
 import Meal from "../models/meal";
 import MealItem from "../components/MealItem";
-import { ROUTES } from "../navigation/MealsNavigator";
+import { ROUTES } from "../navigation/routes";
 
 type Params = {};
 
