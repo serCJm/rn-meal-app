@@ -1,8 +1,11 @@
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
 import { MEALS } from "../data/data";
+import { NavigationStackProp } from "react-navigation-stack";
+import MealList from "../components/MealList";
 
-interface Props {}
+interface Props {
+	navigation: NavigationStackProp;
+}
 
 const FavoritesScreen = (props: Props) => {
 	const favMeals = MEALS.filter(
