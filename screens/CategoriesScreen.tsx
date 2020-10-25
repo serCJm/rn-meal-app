@@ -1,15 +1,27 @@
 import React from "react";
-import { StyleSheet, FlatList, ListRenderItemInfo } from "react-native";
+import { FlatList, ListRenderItemInfo } from "react-native";
 import { CATEGORIES } from "../data/data";
 import Category from "../models/category";
-import { NavigationStackProp } from "react-navigation-stack";
+import {
+	NavigationStackProp,
+	NavigationStackOptions,
+	NavigationStackScreenProps,
+} from "react-navigation-stack";
 import CategoryGridTile from "../components/CategoryGridTile";
+import { HeaderButtons, Item } from "react-navigation-header-buttons";
+import CustomHeaderButton from "../components/HeaderButton";
+import { NavigationDrawerScreenProps } from "react-navigation-drawer";
+import { NavigationScreenComponent } from "react-navigation";
 
 type Props = {
 	navigation: NavigationStackProp;
 };
+type Params = {
+};
+type ScreenProps = {
+};
 
-const CategoriesScreen = (props: Props) => {
+const CategoriesScreen: NavigationScreenComponent<Params, ScreenProps> = (props: Props) => {
 	const renderGridItem = (itemData: ListRenderItemInfo<Category>) => {
 		return (
 			<CategoryGridTile
@@ -33,16 +45,23 @@ const CategoriesScreen = (props: Props) => {
 	);
 };
 
-CategoriesScreen.navigationOptions = {
-	headerTitle: "Meal Categories",
+type navOptions = NavigationStackScreenProps & NavigationDrawerScreenProps;
+
+CategoriesScreen.navigationOptions = (
+	navData: navOptions
+): NavigationStackOptions => {
+	return {
+		headerTitle: "Meal Categories",
+		headerLeft: () => (
+			<HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
+				<Item
+					title="Menu"
+					iconName="ios-menu"
+					onPress={() => navData.navigation.toggleDrawer()}
+				></Item>
+			</HeaderButtons>
+		),
+	};
 };
 
 export default CategoriesScreen;
-
-const styles = StyleSheet.create({
-	screen: {
-		flex: 1,
-		justifyContent: "center",
-		alignItems: "center",
-	},
-});
