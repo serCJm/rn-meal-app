@@ -11,6 +11,8 @@ import { ROUTES } from "./routes";
 import FavoritesScreen from "../screens/FavoritesScreen";
 import { Ionicons } from "@expo/vector-icons";
 import { createMaterialBottomTabNavigator } from "react-navigation-material-bottom-tabs";
+import { createDrawerNavigator } from "react-navigation-drawer";
+import FiltersScreen from "../screens/FiltersScreen";
 
 const defaultStackNavOptions = {
 	headerStyle: {
@@ -54,7 +56,7 @@ const tabScreenConfig = {
 	Meals: {
 		screen: MealNavigator,
 		navigationOptions: {
-			tabBarIcon: (tabInfo) => {
+			tabBarIcon: (tabInfo: any) => {
 				return (
 					<Ionicons
 						name="ios-restaurant"
@@ -69,7 +71,7 @@ const tabScreenConfig = {
 		screen: FavNavigator,
 		navigationOptions: {
 			tabBarLabel: "Favorites!",
-			tabBarIcon: (tabInfo) => {
+			tabBarIcon: (tabInfo: any) => {
 				return (
 					<Ionicons
 						name="ios-star"
@@ -94,5 +96,14 @@ const MealsFavTabNavigator =
 				},
 		  });
 
+const FiltersNavigator = createStackNavigator({
+	Filters: FiltersScreen,
+});
+
+const MainNavigator = createDrawerNavigator({
+	MealsFavs: MealsFavTabNavigator,
+	Filters: FiltersNavigator,
+});
+
 // always wrap root/most important navigator
-export default createAppContainer(MealsFavTabNavigator);
+export default createAppContainer(MainNavigator);
