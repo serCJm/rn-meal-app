@@ -98,11 +98,30 @@ const MealsFavTabNavigator =
 
 const FiltersNavigator = createStackNavigator({
 	Filters: FiltersScreen,
+}, {
+	defaultNavigationOptions: defaultStackNavOptions,
 });
 
 const MainNavigator = createDrawerNavigator({
-	MealsFavs: MealsFavTabNavigator,
-	Filters: FiltersNavigator,
+	MealsFavs: {
+	screen: MealsFavTabNavigator,
+	navigationOptions: {
+		drawerLabel: 'Meals'
+	}
+	},
+	Filters: {
+		screen: FiltersNavigator,
+		navigationOptions: {
+			drawerLabel: 'Filters'
+		}
+		,
+}}, {
+	contentOptions: {
+		activeTintColor: Colors.accentColor,
+		labelStyle: {
+			fontFamily: 'open-sans-bold'
+		}
+	}
 });
 
 // always wrap root/most important navigator
