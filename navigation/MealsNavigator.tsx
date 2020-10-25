@@ -5,7 +5,7 @@ import CategoriesScreen from "../screens/CategoriesScreen";
 import CategoriesMealScreen from "../screens/CategoryMealsScreen";
 import MealDetailScreen from "../screens/MealDetailScreen";
 import { createAppContainer } from "react-navigation";
-import { Platform } from "react-native";
+import { Platform, Text } from "react-native";
 import { Colors } from "../constants/Colors";
 import { ROUTES } from "./routes";
 import FavoritesScreen from "../screens/FavoritesScreen";
@@ -18,7 +18,14 @@ const defaultStackNavOptions = {
 	headerStyle: {
 		backgroundColor: Platform.OS === "android" ? Colors.primaryColor : "",
 	},
+	headerTitleStyle: {
+		fontFamily: 'open-sans-bold'
+	},
+	headerBackTitleStyle: {
+		fontFamily: 'open-sans'
+	},
 	headerTintColor: "white",
+	headerTitle: 'A Screen'
 };
 
 // set screens
@@ -65,12 +72,12 @@ const tabScreenConfig = {
 					></Ionicons>
 				);
 			},
+			tabBarLabel: Platform.OS === 'android' ? <Text style={{fontFamily: 'open-sans-bold'}}>Meals</Text> : 'Meals'
 		},
 	},
 	Favorites: {
 		screen: FavNavigator,
 		navigationOptions: {
-			tabBarLabel: "Favorites!",
 			tabBarIcon: (tabInfo: any) => {
 				return (
 					<Ionicons
@@ -80,6 +87,7 @@ const tabScreenConfig = {
 					></Ionicons>
 				);
 			},
+			tabBarLabel: Platform.OS === 'android' ? <Text style={{fontFamily: 'open-sans-bold'}}>Favorites!</Text> : 'Favorites!'
 		},
 	},
 };
@@ -92,6 +100,9 @@ const MealsFavTabNavigator =
 		  })
 		: createBottomTabNavigator(tabScreenConfig, {
 				tabBarOptions: {
+					labelStyle: {
+						fontFamily: 'open-sans-bold'
+					},
 					activeTintColor: Colors.accentColor,
 				},
 		  });
