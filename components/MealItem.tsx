@@ -1,6 +1,7 @@
 import React from "react";
 import { StyleSheet, Text, View, ImageBackground } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import DefaultText from "./DefaultText";
 
 type Props = {
 	title: string;
@@ -36,9 +37,9 @@ const MealItem = ({
 						</ImageBackground>
 					</View>
 					<View style={{ ...styles.mealRow, ...styles.mealDetail }}>
-						<Text>{duration}m</Text>
-						<Text>{complexity.toUpperCase()}</Text>
-						<Text>{affordability.toUpperCase()}</Text>
+						<DefaultText>{duration}m</DefaultText>
+						<DefaultText>{complexity.toUpperCase()}</DefaultText>
+						<DefaultText>{affordability.toUpperCase()}</DefaultText>
 					</View>
 				</View>
 			</TouchableOpacity>
