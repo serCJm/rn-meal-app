@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { StyleSheet, Switch, Text, View } from "react-native";
 import {
 	NavigationStackOptions,
+	NavigationStackProp,
 	NavigationStackScreenProps,
 } from "react-navigation-stack";
 import { NavigationDrawerScreenProps } from "react-navigation-drawer";
@@ -10,7 +11,9 @@ import CustomHeaderButton from "../components/HeaderButton";
 import { NavigationScreenComponent } from "react-navigation";
 import { Colors } from "../constants/Colors";
 
-interface Props {}
+interface Props {
+	navigation: NavigationStackProp;
+}
 type Params = {};
 type ScreenProps = {};
 type filterSwitchProps = {
@@ -36,13 +39,26 @@ const FilterSwitch = (props: filterSwitchProps) => {
 	);
 };
 
-const FiltersScreen: NavigationScreenComponent<Params, ScreenProps> = (
-	props: Props
-) => {
+const FiltersScreen: NavigationScreenComponent<Params, ScreenProps> = ({
+	navigation,
+}: Props) => {
 	const [isGlutenFree, setGlutenFree] = useState(false);
 	const [isLactoseFree, setLactoseFree] = useState(false);
 	const [isVegan, setIsVegan] = useState(false);
 	const [isVegeterean, setIsVegeterean] = useState(false);
+
+	const saveFilters = useCallback(() => {
+		const appliedFilters = {
+			glutenFree: isGlutenFree,
+			lactoseFree: isLactoseFree,
+			vegan: isVegan,
+			isVegeterean: isVegeterean,
+		};
+	}, [isGlutenFree, isLactoseFree, isVegan, isVegeterean]);
+
+	useEffect(() => {
+		navigation.setParams({ save: saveFilters });
+	}, [saveFilters]);
 
 	return (
 		<View style={styles.screen}>
@@ -84,6 +100,15 @@ FiltersScreen.navigationOptions = (
 					title="Menu"
 					iconName="ios-menu"
 					onPress={() => navData.navigation.toggleDrawer()}
+				></Item>
+			</HeaderButtons>
+		),
+		headerRight: () => (
+			<HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
+				<Item
+					title="Save"
+					iconName="ios-save"
+					onPress={navData.navigation.getParam("save")}
 				></Item>
 			</HeaderButtons>
 		),
