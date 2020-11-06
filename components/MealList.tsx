@@ -4,6 +4,8 @@ import MealItem from "./MealItem";
 import Meal from "../models/meal";
 import { NavigationStackProp } from "react-navigation-stack";
 import { ROUTES } from "../navigation/routes";
+import { useSelector } from "react-redux";
+import { RootState } from "../App";
 
 interface Props {
 	listData: Meal[];
@@ -11,7 +13,11 @@ interface Props {
 }
 
 const MealList = ({ listData, navigation }: Props) => {
+	const favMeals = useSelector(
+		(state: RootState) => state.meals.favoriteMeals
+	);
 	const renderMealItem = (itemData: ListRenderItemInfo<Meal>) => {
+		const isFav = favMeals.some((meal) => meal.id === itemData.item.id);
 		return (
 			<MealItem
 				title={itemData.item.title}
@@ -21,6 +27,7 @@ const MealList = ({ listData, navigation }: Props) => {
 						params: {
 							mealId: itemData.item.id,
 							mealTitle: itemData.item.title,
+							isFav,
 						},
 					});
 				}}

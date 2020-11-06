@@ -32,8 +32,10 @@ const MealDetailScreen: NavigationScreenComponent<Params, ScreenProps> = (
 	props
 ) => {
 	const availableMeals = useSelector((state: RootState) => state.meals.meals);
-
 	const mealId = props.navigation.getParam("mealId");
+	const currentMealIsFav = useSelector((state: RootState) =>
+		state.meals.favoriteMeals.some((meal) => meal.id === mealId)
+	);
 
 	const selectedMeal = availableMeals.find((meal) => meal.id === mealId);
 
@@ -46,6 +48,10 @@ const MealDetailScreen: NavigationScreenComponent<Params, ScreenProps> = (
 	useEffect(() => {
 		props.navigation.setParams({ toggleFav: toggleFavoriteHandler });
 	}, [toggleFavoriteHandler]);
+
+	useEffect(() => {
+		props.navigation.setParams({ isFav: currentMealIsFav });
+	}, [currentMealIsFav]);
 
 	// useEffect(() => {
 	// 	props.navigation.setParams({ mealTitle: selectedMeal?.title });
@@ -84,6 +90,7 @@ MealDetailScreen.navigationOptions = (
 	// const mealId = navigationData.navigation.getParam("mealId");
 	const toggleFavorite = navigationData.navigation.getParam("toggleFav");
 	const mealTitle = navigationData.navigation.getParam("mealTitle");
+	const isFav = navigationData.navigation.getParam("isFav");
 
 	// const selectedMeal = MEALS.find((meal) => meal.id === mealId);
 	return {
@@ -92,7 +99,7 @@ MealDetailScreen.navigationOptions = (
 			<HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
 				<Item
 					title="Favorite"
-					iconName="ios-star"
+					iconName={isFav ? "ios-star" : "ios-star-outline"}
 					onPress={toggleFavorite}
 				></Item>
 			</HeaderButtons>
