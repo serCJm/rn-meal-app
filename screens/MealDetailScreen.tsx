@@ -1,16 +1,16 @@
-import React, { useEffect } from "react";
+import React, { useCallback, useEffect } from "react";
 import { StyleSheet, Text, View, ScrollView, Image } from "react-native";
 import {
 	NavigationStackScreenProps,
 	NavigationStackOptions,
 } from "react-navigation-stack";
-import { MEALS } from "../data/data";
 import CustomHeaderButton from "../components/HeaderButton";
 import { Item, HeaderButtons } from "react-navigation-header-buttons";
 import { NavigationScreenComponent } from "react-navigation";
 import DefaultText from "../components/DefaultText";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../App";
+import { toggleFavorite } from "../store/actions/meals";
 
 type Params = {};
 
@@ -36,6 +36,16 @@ const MealDetailScreen: NavigationScreenComponent<Params, ScreenProps> = (
 	const mealId = props.navigation.getParam("mealId");
 
 	const selectedMeal = availableMeals.find((meal) => meal.id === mealId);
+
+	const dispatch = useDispatch();
+
+	const toggleFavoriteHandler = useCallback(() => {
+		dispatch(toggleFavorite(mealId));
+	}, [dispatch, mealId]);
+
+	useEffect(() => {
+		props.navigation.setParams({ toggleFav: toggleFavoriteHandler });
+	}, [toggleFavoriteHandler]);
 
 	// useEffect(() => {
 	// 	props.navigation.setParams({ mealTitle: selectedMeal?.title });
@@ -72,6 +82,7 @@ MealDetailScreen.navigationOptions = (
 	navigationData: NavigationStackScreenProps
 ): NavigationStackOptions => {
 	// const mealId = navigationData.navigation.getParam("mealId");
+	const toggleFavorite = navigationData.navigation.getParam("toggleFav");
 	const mealTitle = navigationData.navigation.getParam("mealTitle");
 
 	// const selectedMeal = MEALS.find((meal) => meal.id === mealId);
@@ -82,7 +93,7 @@ MealDetailScreen.navigationOptions = (
 				<Item
 					title="Favorite"
 					iconName="ios-star"
-					onPress={() => {}}
+					onPress={toggleFavorite}
 				></Item>
 			</HeaderButtons>
 		),
