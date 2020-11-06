@@ -1,5 +1,6 @@
 import React from "react";
-import { CATEGORIES, MEALS } from "../data/data";
+import { useSelector } from "react-redux";
+import { CATEGORIES } from "../data/data";
 import Category from "../models/category";
 import { NavigationScreenComponent } from "react-navigation";
 import {
@@ -7,6 +8,7 @@ import {
 	NavigationStackOptions,
 } from "react-navigation-stack";
 import MealList from "../components/MealList";
+import { RootState } from "../App";
 
 type Params = {};
 
@@ -17,7 +19,11 @@ const CategoriesMealScreen: NavigationScreenComponent<Params, ScreenProps> = (
 ) => {
 	const catId = props.navigation.getParam("categoryId");
 
-	const displayedMeals = MEALS.filter(
+	const availableMeals = useSelector(
+		(state: RootState) => state.meals.filteredMeals
+	);
+
+	const displayedMeals = availableMeals.filter(
 		(meal) => meal.categoryIds.indexOf(catId) >= 0
 	);
 	return (
