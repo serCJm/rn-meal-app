@@ -20,6 +20,7 @@ const MealList = ({ listData, navigation }: Props) => {
 						routeName: ROUTES.MealDetail,
 						params: {
 							mealId: itemData.item.id,
+							mealTitle: itemData.item.title,
 						},
 					});
 				}}
