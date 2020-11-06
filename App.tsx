@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { Provider } from "react-redux";
-import { StyleSheet } from "react-native";
 import * as Font from "expo-font";
 import { AppLoading } from "expo";
 import MealsNavigator from "./navigation/MealsNavigator";
@@ -13,6 +12,8 @@ enableScreens();
 const rootReducer = combineReducers({
 	meals: mealsReducer,
 });
+
+export type RootState = ReturnType<typeof rootReducer>;
 
 const store = createStore(rootReducer);
 
