@@ -11,6 +11,8 @@ import CustomHeaderButton from "../components/HeaderButton";
 import { NavigationScreenComponent } from "react-navigation";
 import { RootState } from "../App";
 import { useSelector } from "react-redux";
+import { StyleSheet, View } from "react-native";
+import DefaultText from "../components/DefaultText";
 
 interface Props {
 	navigation: NavigationStackProp;
@@ -24,6 +26,14 @@ const FavoritesScreen: NavigationScreenComponent<Params, ScreenProps> = (
 	const favMeals = useSelector(
 		(state: RootState) => state.meals.favoriteMeals
 	);
+
+	if (favMeals.length === 0) {
+		return (
+			<View style={styles.content}>
+				<DefaultText>You got no favorite meals!</DefaultText>
+			</View>
+		);
+	}
 
 	return (
 		<MealList listData={favMeals} navigation={props.navigation}></MealList>
@@ -48,5 +58,13 @@ FavoritesScreen.navigationOptions = (
 		),
 	};
 };
+
+const styles = StyleSheet.create({
+	content: {
+		flex: 1,
+		justifyContent: "center",
+		alignItems: "center",
+	},
+});
 
 export default FavoritesScreen;
