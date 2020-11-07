@@ -45,12 +45,13 @@ export const mealsReducer = (
 				if (appliedFilters.lactoseFree && !meal.isLactoseFree) {
 					return false;
 				}
-				if (appliedFilters.vegetarian && !meal.isVegetarian) {
+				if (appliedFilters.isVegeterean && !meal.isVegetarian) {
 					return false;
 				}
 				if (appliedFilters.vegan && !meal.isVegan) {
 					return false;
 				}
+				return true;
 			});
 			return { ...state, filteredMeals };
 		default:

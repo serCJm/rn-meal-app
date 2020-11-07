@@ -9,8 +9,8 @@ interface ToggleFavoriteAction {
 export interface IFilterSettings {
 	glutenFree: boolean;
 	lactoseFree: boolean;
-	vegetarian: boolean;
 	vegan: boolean;
+	isVegeterean: boolean;
 }
 
 interface ISetFilters {
