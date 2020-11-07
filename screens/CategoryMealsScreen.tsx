@@ -9,6 +9,8 @@ import {
 } from "react-navigation-stack";
 import MealList from "../components/MealList";
 import { RootState } from "../App";
+import { StyleSheet, View } from "react-native";
+import DefaultText from "../components/DefaultText";
 
 type Params = {};
 
@@ -26,6 +28,14 @@ const CategoriesMealScreen: NavigationScreenComponent<Params, ScreenProps> = (
 	const displayedMeals = availableMeals.filter(
 		(meal) => meal.categoryIds.indexOf(catId) >= 0
 	);
+
+	if (displayedMeals.length === 0) {
+		return (
+			<View style={styles.content}>
+				<DefaultText>No meals found, check your filters!</DefaultText>
+			</View>
+		);
+	}
 	return (
 		<MealList
 			listData={displayedMeals}
@@ -45,5 +55,13 @@ CategoriesMealScreen.navigationOptions = (
 		headerTitle: selectedCategory?.title,
 	};
 };
+
+const styles = StyleSheet.create({
+	content: {
+		flex: 1,
+		justifyContent: "center",
+		alignItems: "center",
+	},
+});
 
 export default CategoriesMealScreen;
